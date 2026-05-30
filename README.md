@@ -33,7 +33,7 @@ Le remplissage par plaque peut passer par la route Next.js App Router `POST /api
 Creez un fichier `.env.local` a la racine avec :
 
 ```text
-API_PLAQUE_KEY=votre_cle_api_ici
+RAPIDAPI_KEY=votre_cle_api_ici
 ```
 
 Par defaut, le serveur utilise l'API RapidAPI `api-de-plaque-d-immatriculation-france`.
@@ -41,8 +41,11 @@ Si votre fournisseur donne une URL differente, ajoutez aussi :
 
 ```text
 API_PLAQUE_URL=https://votre-endpoint-api.example/vehicle
+RAPIDAPI_HOST=api-de-plaque-d-immatriculation-france.p.rapidapi.com
 API_PLAQUE_PARAM=immatriculation
 ```
+
+Attention : `rapidapi.com` n'est pas l'URL de l'API. Dans RapidAPI, ouvrez l'onglet Playground ou Code Snippets et copiez l'URL technique ainsi que `X-RapidAPI-Host`.
 
 Fichier de route :
 

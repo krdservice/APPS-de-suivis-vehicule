@@ -66,12 +66,22 @@ async function handleVehicleByPlate(request, response) {
     sendJson(response, 200, vehicle);
   } catch (error) {
     if (error.code === "missing_key") {
-      sendJson(response, 500, { error: "missing_api_key", message: "Clé API_PLAQUE_KEY manquante côté serveur." });
+      sendJson(response, 500, { error: "missing_api_key", message: "Clé RAPIDAPI_KEY manquante côté serveur." });
+      return;
+    }
+
+    if (error.code === "bad_api_config") {
+      sendJson(response, 500, { error: "bad_api_config", message: error.message });
       return;
     }
 
     if (error.code === "quota_exceeded") {
       sendJson(response, 429, { error: "quota_exceeded", message: "Quota API dépassé." });
+      return;
+    }
+
+    if (error.code === "api_timeout") {
+      sendJson(response, 504, { error: "api_timeout", message: "L'API RapidAPI ne répond pas." });
       return;
     }
 
@@ -92,32 +102,51 @@ async function getVehicleByPlate(plate) {
     return cached.data;
   }
 
-  const apiKey = process.env.API_PLAQUE_KEY;
+  const apiKey = process.env.RAPIDAPI_KEY;
+  const apiHost = process.env.RAPIDAPI_HOST;
 
   if (!apiKey || apiKey.includes("votre_cle_api_ici")) {
-    const error = new Error("API_PLAQUE_KEY manquante.");
+    const error = new Error("RAPIDAPI_KEY manquante.");
     error.code = "missing_key";
     throw error;
   }
 
-  const endpoint = process.env.API_PLAQUE_URL || "https://api-de-plaque-d-immatriculation-france.p.rapidapi.com/";
+  if (!apiHost) {
+    const error = new Error("RAPIDAPI_HOST manquant.");
+    error.code = "bad_api_config";
+    throw error;
+  }
+
+  const endpoint = normalizeApiEndpoint(
+    process.env.API_PLAQUE_URL || `https://${apiHost}/`
+  );
   const plateParam = process.env.API_PLAQUE_PARAM || "immatriculation";
   const url = new URL(endpoint);
   url.searchParams.set(plateParam, normalizedPlate.replace(/-/g, ""));
 
-  const headers = {
-    Accept: "application/json"
-  };
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 9000);
+  let apiResponse;
 
-  if (process.env.API_PLAQUE_URL) {
-    headers.Authorization = `Bearer ${apiKey}`;
-    headers["X-API-Key"] = apiKey;
-  } else {
-    headers["x-rapidapi-key"] = apiKey;
-    headers["x-rapidapi-host"] = url.host;
+  try {
+    apiResponse = await fetch(url, {
+      headers: {
+        "X-RapidAPI-Key": apiKey,
+        "X-RapidAPI-Host": apiHost
+      },
+      signal: controller.signal
+    });
+  } catch (error) {
+    if (error.name === "AbortError") {
+      const timeoutError = new Error("Timeout API RapidAPI.");
+      timeoutError.code = "api_timeout";
+      throw timeoutError;
+    }
+
+    throw error;
+  } finally {
+    clearTimeout(timeout);
   }
-
-  const apiResponse = await fetch(url, { method: "GET", headers });
 
   if (apiResponse.status === 204 || apiResponse.status === 404) {
     vehicleCache.set(normalizedPlate, { createdAt: Date.now(), data: null });
@@ -146,7 +175,7 @@ async function getVehicleByPlate(plate) {
 }
 
 function mapVehicleResponse(raw) {
-  const source = raw?.data || raw?.result || raw?.vehicle || raw || {};
+  const source = getVehicleSource(raw);
 
   const vehicle = {
     brand: pick(source, ["brand", "make", "marque", "Marque"]),
@@ -168,6 +197,45 @@ function mapVehicleResponse(raw) {
 
   const hasAnyValue = Object.values(vehicle).some((value) => value !== "" && value !== null && value !== undefined);
   return hasAnyValue ? vehicle : null;
+}
+
+function getVehicleSource(raw) {
+  if (Array.isArray(raw)) return raw[0] || {};
+  if (!raw || typeof raw !== "object") return {};
+
+  const nested = raw.data || raw.result || raw.vehicle || raw.vehicule || raw.response;
+  if (Array.isArray(nested)) return nested[0] || {};
+  if (nested && typeof nested === "object") return nested;
+
+  return raw;
+}
+
+function normalizeApiEndpoint(endpoint) {
+  let value = String(endpoint || "").trim();
+
+  if (!value) {
+    const error = new Error("URL API manquante.");
+    error.code = "bad_api_config";
+    throw error;
+  }
+
+  if (!/^https?:\/\//i.test(value)) {
+    value = `https://${value}`;
+  }
+
+  const url = new URL(value);
+
+  if (url.hostname === "rapidapi.com" || url.hostname === "www.rapidapi.com") {
+    const error = new Error("L'URL API ne doit pas être rapidapi.com. Utilisez l'endpoint technique fourni dans l'onglet Playground, par exemple https://api-de-plaque-d-immatriculation-france.p.rapidapi.com/");
+    error.code = "bad_api_config";
+    throw error;
+  }
+
+  return url.toString();
+}
+
+function isRapidApiEndpoint(url) {
+  return url.hostname.endsWith(".rapidapi.com");
 }
 
 function normalizeNumberText(value) {
