@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#101820">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Entretien Auto">
+    <title>Entretien Auto</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" href="assets/app-icon-180.png">
+    <link rel="stylesheet" href="styles.css?v=6">
+  </head>
+  <body>
+    <svg class="icon-sprite" aria-hidden="true" focusable="false">
+      <symbol id="icon-car" viewBox="0 0 24 24"><path d="M5 17h14M7 17v2M17 17v2M4 13l1.5-5A3 3 0 0 1 8.4 6h7.2a3 3 0 0 1 2.9 2l1.5 5M5 13h14a2 2 0 0 1 2 2v2H3v-2a2 2 0 0 1 2-2Z"/><path d="M7.5 14.8h.1M16.4 14.8h.1"/></symbol>
+      <symbol id="icon-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+      <symbol id="icon-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a4.7 4.7 0 0 0 5.1 5.1l-8.6 8.6a3 3 0 1 1-4.2-4.2l8.6-8.6Z"/></symbol>
+      <symbol id="icon-calendar" viewBox="0 0 24 24"><path d="M7 3v4M17 3v4M4 9h16M6 5h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/></symbol>
+      <symbol id="icon-user" viewBox="0 0 24 24"><path d="M20 21a8 8 0 0 0-16 0M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/></symbol>
+      <symbol id="icon-lock" viewBox="0 0 24 24"><path d="M7 11V8a5 5 0 0 1 10 0v3M6 11h12v10H6V11Z"/></symbol>
+      <symbol id="icon-back" viewBox="0 0 24 24"><path d="M15 18 9 12l6-6"/></symbol>
+      <symbol id="icon-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V5h6v2M7 7l1 14h8l1-14"/></symbol>
+      <symbol id="icon-logout" viewBox="0 0 24 24"><path d="M10 17 5 12l5-5M5 12h12M14 5h5v14h-5"/></symbol>
+      <symbol id="icon-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+      <symbol id="icon-file" viewBox="0 0 24 24"><path d="M14 3H6v18h12V7l-4-4Z"/><path d="M14 3v4h4M8 13h8M8 17h5"/></symbol>
+      <symbol id="icon-download" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></symbol>
+      <symbol id="icon-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/></symbol>
+    </svg>
+
+    <div id="app" class="app-shell auth-mode">
+      <main id="authScreen" class="screen auth-screen">
+        <section class="auth-visual" aria-label="Entretien Auto">
+          <img src="assets/login-background.png" alt="" class="auth-image">
+          <div class="auth-shade"></div>
+          <div class="brand-lockup">
+            <span class="brand-mark" aria-hidden="true"><svg><use href="#icon-car"></use></svg></span>
+            <p>Entretien Auto</p>
+            <h1>Votre garage de poche</h1>
+          </div>
+        </section>
+
+        <section class="auth-panel">
+          <div class="segmented" role="tablist" aria-label="Connexion ou inscription">
+            <button id="showLogin" class="active" type="button">Connexion</button>
+            <button id="showSignup" type="button">Inscription</button>
+          </div>
+
+          <form id="loginForm" class="stack auth-form" autocomplete="on">
+            <div class="form-head">
+              <p class="eyebrow">Connexion</p>
+              <h2>Accéder au garage</h2>
+            </div>
+            <label class="field">
+              <span>Adresse e-mail</span>
+              <span class="input-wrap">
+                <svg aria-hidden="true"><use href="#icon-user"></use></svg>
+                <input id="loginEmail" name="email" type="email" placeholder="vous@email.fr" required>
+              </span>
+            </label>
+            <label class="field">
+              <span>Code</span>
+              <span class="input-wrap">
+                <svg aria-hidden="true"><use href="#icon-lock"></use></svg>
+                <input id="loginPin" name="pin" type="password" inputmode="numeric" minlength="4" placeholder="1234" required>
+              </span>
+            </label>
+            <button class="primary-action" type="submit">
+              <svg aria-hidden="true"><use href="#icon-check"></use></svg>
+              Connexion
+            </button>
+          </form>
+
+          <form id="signupForm" class="stack auth-form hidden" autocomplete="on">
+            <div class="form-head">
+              <p class="eyebrow">Inscription</p>
+              <h2>Créer un compte</h2>
+            </div>
+            <label class="field">
+              <span>Nom complet</span>
+              <span class="input-wrap">
+                <svg aria-hidden="true"><use href="#icon-user"></use></svg>
+                <input id="signupName" name="name" type="text" placeholder="David Martin" required>
+              </span>
+            </label>
+            <label class="field">
+              <span>Adresse e-mail</span>
+              <span class="input-wrap">
+                <svg aria-hidden="true"><use href="#icon-user"></use></svg>
+                <input id="signupEmail" name="email" type="email" placeholder="vous@email.fr" required>
+              </span>
+            </label>
+            <label class="field">
+              <span>Code personnel</span>
+              <span class="input-wrap">
+                <svg aria-hidden="true"><use href="#icon-lock"></use></svg>
+                <input id="signupPin" name="pin" type="password" inputmode="numeric" minlength="4" placeholder="4 chiffres minimum" required>
+              </span>
+            </label>
+            <button class="primary-action" type="submit">
+              <svg aria-hidden="true"><use href="#icon-check"></use></svg>
+              Créer le compte
+            </button>
+          </form>
+        </section>
+      </main>
+
+      <main id="dashboardScreen" class="screen app-screen hidden" aria-hidden="true">
+        <header class="topbar">
+          <button id="logoutButton" class="icon-button" type="button" aria-label="Déconnexion" title="Déconnexion"><svg><use href="#icon-logout"></use></svg></button>
+          <div class="topbar-copy">
+            <span id="todayLabel"></span>
+            <h1 id="helloTitle">Garage</h1>
+          </div>
+          <button id="openVehicleSheet" class="icon-button accent" type="button" aria-label="Ajouter un véhicule" title="Ajouter un véhicule"><svg><use href="#icon-plus"></use></svg></button>
+        </header>
+
+        <section id="dashboardHero" class="dashboard-hero" aria-label="Véhicule principal"></section>
+
+        <section class="quick-actions" aria-label="Actions rapides">
+          <button id="quickAddVehicle" class="action-card" type="button">
+            <span>🚗</span>
+            <strong>Ajouter un véhicule</strong>
+          </button>
+          <button id="quickRevision" class="action-card" type="button">
+            <span>🔧</span>
+            <strong>Effectuer une révision</strong>
+          </button>
+          <button id="quickInvoices" class="action-card" type="button">
+            <span>📄</span>
+            <strong>Mes factures</strong>
+          </button>
+          <button id="quickStats" class="action-card" type="button">
+            <span>📊</span>
+            <strong>Statistiques</strong>
+          </button>
+        </section>
+
+        <section class="metrics-grid wide" aria-label="Tableau de bord">
+          <article><span id="vehicleCount">0</span><p>Véhicules</p></article>
+          <article><span id="upcomingCount">0</span><p>Révisions</p></article>
+          <article><span id="invoiceCount">0</span><p>Factures</p></article>
+          <article><span id="totalCost">0 €</span><p>Dépenses</p></article>
+        </section>
+
+        <section id="alertPanel" class="alert-panel hidden"></section>
+        <section id="expensePanel" class="expense-panel hidden"></section>
+
+        <section class="section-heading">
+          <h2>Mes véhicules</h2>
+          <button id="addVehicleInline" class="text-action" type="button"><svg aria-hidden="true"><use href="#icon-plus"></use></svg>Ajouter</button>
+        </section>
+        <section id="vehicleList" class="vehicle-list" aria-live="polite"></section>
+      </main>
+
+      <main id="detailScreen" class="screen detail-screen hidden" aria-hidden="true">
+        <header class="topbar compact">
+          <button id="backToDashboard" class="icon-button" type="button" aria-label="Retour" title="Retour"><svg><use href="#icon-back"></use></svg></button>
+          <div class="topbar-copy">
+            <span id="detailPlate"></span>
+            <h1 id="detailTitle">Véhicule</h1>
+          </div>
+          <button id="deleteVehicle" class="icon-button danger" type="button" aria-label="Supprimer le véhicule" title="Supprimer le véhicule"><svg><use href="#icon-trash"></use></svg></button>
+        </header>
+
+        <section class="vehicle-hero">
+          <div>
+            <p id="detailMeta">-</p>
+            <strong id="detailMileage">0 km</strong>
+          </div>
+          <span class="plate-badge" id="detailPlateBadge">AA-000-AA</span>
+        </section>
+
+        <section id="vehicleGallery" class="vehicle-gallery" aria-label="Images du véhicule"></section>
+
+        <nav class="detail-tabs" aria-label="Sections du véhicule">
+          <button class="active" type="button" data-tab="history">Historique</button>
+          <button type="button" data-tab="invoices">Factures</button>
+          <button type="button" data-tab="info">Infos</button>
+        </nav>
+
+        <section id="historyTab" class="tab-panel">
+          <section class="section-heading">
+            <h2>Entretiens</h2>
+            <button id="openRevisionSheet" class="text-action" type="button"><svg aria-hidden="true"><use href="#icon-wrench"></use></svg>Effectuer une révision</button>
+          </section>
+          <section id="serviceList" class="service-list" aria-live="polite"></section>
+        </section>
+
+        <section id="invoicesTab" class="tab-panel hidden">
+          <section class="section-heading">
+            <h2>Factures</h2>
+            <button id="openInvoiceSheet" class="text-action" type="button"><svg aria-hidden="true"><use href="#icon-file"></use></svg>Importer</button>
+          </section>
+          <section id="invoiceList" class="service-list" aria-live="polite"></section>
+        </section>
+
+        <section id="infoTab" class="tab-panel hidden">
+          <section id="vehicleInfoGrid" class="info-grid"></section>
+        </section>
+      </main>
+    </div>
+
+    <div id="vehicleSheet" class="sheet-backdrop hidden" aria-hidden="true">
+      <form id="vehicleForm" class="sheet" autocomplete="off">
+        <div class="sheet-header">
+          <div><p class="eyebrow">Nouveau</p><h2>Véhicule</h2></div>
+          <button class="icon-button sheet-close" type="button" data-close-sheet="vehicleSheet" aria-label="Fermer" title="Fermer">×</button>
+        </div>
+        <label class="field">
+          <span>Plaque d'immatriculation</span>
+          <input id="vehiclePlate" name="plate" type="text" placeholder="AB-123-CD" maxlength="12" required>
+        </label>
+        <button id="lookupPlateButton" class="secondary-action" type="button">Remplir automatiquement</button>
+        <p id="plateLookupStatus" class="helper-text"></p>
+        <div class="field-row">
+          <label class="field"><span>Marque</span><input id="vehicleBrand" name="brand" type="text" placeholder="Peugeot" required></label>
+          <label class="field"><span>Modèle</span><input id="vehicleModel" name="model" type="text" placeholder="308" required></label>
+        </div>
+        <label class="field"><span>Version</span><input id="vehicleVersion" name="version" type="text" placeholder="GT Line"></label>
+        <div class="field-row">
+          <label class="field"><span>Année</span><input id="vehicleYear" name="year" type="number" min="1950" max="2035" placeholder="2021"></label>
+          <label class="field"><span>Kilométrage</span><input id="vehicleMileage" name="mileage" type="number" min="0" step="100" placeholder="65000"></label>
+        </div>
+        <div class="field-row">
+          <label class="field"><span>Motorisation</span><input id="vehicleEngine" name="engine" type="text" placeholder="1.5 BlueHDi"></label>
+          <label class="field"><span>Puissance fiscale</span><input id="vehicleFiscalPower" name="fiscalPower" type="number" min="1" max="60" placeholder="6"></label>
+        </div>
+        <div class="field-row">
+          <label class="field"><span>Puissance moteur</span><input id="vehicleHorsePower" name="horsePower" type="text" placeholder="130 ch"></label>
+          <label class="field"><span>Émissions CO2</span><input id="vehicleCo2" name="co2" type="text" placeholder="112 g/km"></label>
+        </div>
+        <div class="field-row">
+          <label class="field"><span>Carburant</span><input id="vehicleFuel" name="fuel" type="text" placeholder="Diesel"></label>
+          <label class="field"><span>Couleur</span><input id="vehicleColor" name="color" type="text" placeholder="Gris"></label>
+        </div>
+        <label class="field"><span>Prochaine révision</span><input id="vehicleNextService" name="nextService" type="date"></label>
+        <button class="primary-action" type="submit"><svg aria-hidden="true"><use href="#icon-check"></use></svg>Enregistrer</button>
+      </form>
+    </div>
+
+    <div id="revisionSheet" class="sheet-backdrop hidden" aria-hidden="true">
+      <form id="revisionForm" class="sheet" autocomplete="off">
+        <div class="sheet-header">
+          <div><p class="eyebrow">Révision</p><h2>Opération</h2></div>
+          <button class="icon-button sheet-close" type="button" data-close-sheet="revisionSheet" aria-label="Fermer" title="Fermer">×</button>
+        </div>
+        <section id="maintenanceGrid" class="maintenance-grid" aria-label="Types de révision"></section>
+        <input id="serviceType" name="type" type="hidden" required>
+        <div class="field-row">
+          <label class="field"><span>Date</span><input id="serviceDate" name="date" type="date" required></label>
+          <label class="field"><span>Kilométrage</span><input id="serviceMileage" name="mileage" type="number" min="0" step="100" placeholder="70000"></label>
+        </div>
+        <div class="field-row">
+          <label class="field"><span>Coût</span><input id="serviceCost" name="cost" type="number" min="0" step="1" placeholder="180"></label>
+          <label class="field"><span>Prochaine échéance</span><input id="serviceNext" name="nextService" type="date"></label>
+        </div>
+        <label class="field"><span>Facture associée</span><select id="serviceInvoice" name="invoiceId"></select></label>
+        <label class="upload-card">
+          <input id="revisionInvoicePdf" name="revisionInvoicePdf" type="file" accept="application/pdf">
+          <span>📄</span>
+          <strong>Ajouter une facture</strong>
+          <small>PDF optionnel, enregistré avec la révision</small>
+        </label>
+        <label class="field"><span>Notes</span><textarea id="serviceNotes" name="notes" rows="3" placeholder="Garage, pièces, remarques"></textarea></label>
+        <button class="primary-action" type="submit"><svg aria-hidden="true"><use href="#icon-check"></use></svg>Enregistrer la révision</button>
+      </form>
+    </div>
+
+    <div id="invoiceSheet" class="sheet-backdrop hidden" aria-hidden="true">
+      <form id="invoiceForm" class="sheet" autocomplete="off">
+        <div class="sheet-header">
+          <div><p class="eyebrow">Import PDF</p><h2>Facture</h2></div>
+          <button class="icon-button sheet-close" type="button" data-close-sheet="invoiceSheet" aria-label="Fermer" title="Fermer">×</button>
+        </div>
+        <label class="field"><span>Nom de la facture</span><input id="invoiceName" name="name" type="text" placeholder="Facture vidange" required></label>
+        <div class="field-row">
+          <label class="field"><span>Date</span><input id="invoiceDate" name="date" type="date" required></label>
+          <label class="field"><span>Montant</span><input id="invoiceAmount" name="amount" type="number" min="0" step="1" placeholder="180"></label>
+        </div>
+        <label class="field"><span>PDF</span><input id="invoicePdf" name="pdf" type="file" accept="application/pdf" required></label>
+        <p class="helper-text">Le PDF est conservé localement dans ce navigateur.</p>
+        <button class="primary-action" type="submit"><svg aria-hidden="true"><use href="#icon-check"></use></svg>Ajouter la facture</button>
+      </form>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="app.js?v=6"></script>
+  </body>
+</html>

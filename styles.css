@@ -1,0 +1,566 @@
+:root {
+  color-scheme: light;
+  --ink: #101820;
+  --muted: #66727d;
+  --line: #dfe6eb;
+  --paper: #f6f7f8;
+  --surface: #ffffff;
+  --surface-2: #eef3f5;
+  --teal: #087f8c;
+  --teal-dark: #075d68;
+  --amber: #f2a541;
+  --danger: #c84747;
+  --shadow: 0 20px 55px rgba(16, 24, 32, 0.16);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body { min-height: 100%; margin: 0; }
+body { background: #d7e0e4; color: var(--ink); }
+button, input, textarea, select { font: inherit; }
+button { border: 0; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+.icon-sprite { display: none; }
+.hidden { display: none !important; }
+
+.app-shell {
+  min-height: 100vh;
+  width: min(100%, 460px);
+  margin: 0 auto;
+  background: var(--paper);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(16, 24, 32, 0.08), var(--shadow);
+}
+
+.screen { min-height: 100vh; width: 100%; }
+.auth-screen { background: var(--surface); }
+.auth-visual { min-height: 42vh; position: relative; overflow: hidden; background: #111b20; }
+.auth-image { width: 100%; height: 100%; min-height: 42vh; object-fit: cover; display: block; }
+.auth-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(16, 24, 32, 0.08), rgba(16, 24, 32, 0.78)); }
+.brand-lockup { position: absolute; left: 24px; right: 24px; bottom: 28px; color: #fff; }
+.brand-mark { width: 48px; height: 48px; display: inline-grid; place-items: center; border-radius: 16px; background: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.28); }
+.brand-mark svg, .primary-action svg, .text-action svg, .icon-button svg, .inline-actions svg { width: 21px; height: 21px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.brand-lockup h1 { margin: 0; max-width: 340px; font-size: clamp(2.2rem, 10vw, 3.45rem); line-height: 0.98; letter-spacing: 0; }
+.brand-lockup p, .eyebrow, .topbar-copy span { margin: 12px 0 6px; font-size: 0.78rem; font-weight: 850; letter-spacing: 0; text-transform: uppercase; }
+
+.auth-panel {
+  padding: 20px 22px max(22px, env(safe-area-inset-bottom));
+  background: var(--surface);
+  border-radius: 26px 26px 0 0;
+  margin-top: -24px;
+  position: relative;
+}
+
+.segmented {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 5px;
+  margin-bottom: 18px;
+  background: var(--surface-2);
+  border-radius: 16px;
+}
+
+.segmented button, .detail-tabs button {
+  min-height: 42px;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 850;
+}
+
+.segmented button.active, .detail-tabs button.active {
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: 0 6px 18px rgba(16, 24, 32, 0.08);
+}
+
+.stack, .vehicle-list, .service-list { display: grid; gap: 14px; }
+.form-head { display: grid; gap: 4px; }
+.form-head .eyebrow, .sheet .eyebrow { color: var(--teal); margin: 0; }
+.form-head h2, .sheet h2, .section-heading h2 { margin: 0; letter-spacing: 0; }
+.form-head h2, .sheet h2 { font-size: 1.45rem; }
+
+.field { display: grid; gap: 8px; color: var(--muted); font-size: 0.9rem; font-weight: 750; }
+.field input, .field textarea, .field select, .input-wrap {
+  width: 100%;
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  border-radius: 14px;
+  min-height: 52px;
+  color: var(--ink);
+  outline: none;
+}
+.field input, .field textarea, .field select { padding: 0 14px; }
+.field textarea { min-height: 96px; resize: vertical; padding-top: 13px; }
+.input-wrap { display: flex; align-items: center; gap: 10px; padding: 0 14px; }
+.input-wrap input { border: 0; background: transparent; padding: 0; min-height: 50px; }
+.input-wrap svg { width: 20px; height: 20px; stroke: var(--teal); stroke-width: 1.9; fill: none; stroke-linecap: round; stroke-linejoin: round; flex: 0 0 auto; }
+.field input:focus, .field textarea:focus, .field select:focus, .input-wrap:focus-within { border-color: var(--teal); box-shadow: 0 0 0 4px rgba(8, 127, 140, 0.12); }
+.field-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
+
+.primary-action, .secondary-action, .text-action {
+  min-height: 52px;
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-weight: 850;
+}
+.primary-action { color: #fff; background: var(--teal); }
+.secondary-action { color: var(--teal-dark); background: #dff0f2; }
+.text-action { min-height: 40px; border-radius: 14px; padding: 0 13px; color: #fff; background: var(--ink); flex: 0 0 auto; }
+.primary-action:active, .secondary-action:active, .text-action:active, .icon-button:active { transform: translateY(1px); }
+.helper-text { margin: -6px 0 0; color: var(--muted); font-size: 0.84rem; line-height: 1.35; }
+
+.app-screen, .detail-screen { padding: max(18px, env(safe-area-inset-top)) 18px max(24px, env(safe-area-inset-bottom)); overflow-y: auto; }
+.topbar { display: grid; grid-template-columns: 48px 1fr 48px; align-items: center; gap: 12px; margin-bottom: 18px; }
+.topbar.compact { margin-bottom: 14px; }
+.topbar-copy { min-width: 0; }
+.topbar-copy span { display: block; margin: 0 0 3px; color: var(--teal-dark); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.topbar h1 { margin: 0; font-size: 1.62rem; line-height: 1.1; overflow-wrap: anywhere; letter-spacing: 0; }
+.icon-button { width: 48px; height: 48px; display: inline-grid; place-items: center; border-radius: 16px; background: var(--surface); color: var(--ink); box-shadow: 0 8px 24px rgba(16, 24, 32, 0.08); }
+.icon-button.accent { background: var(--teal); color: #fff; }
+.icon-button.danger { color: var(--danger); }
+
+.metrics-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 16px 0 16px; }
+.metrics-grid.wide { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.metrics-grid article, .vehicle-card, .service-card, .invoice-card, .info-grid article, .vehicle-view, .alert-panel, .expense-panel {
+  background: var(--surface);
+  border: 1px solid rgba(16, 24, 32, 0.06);
+  border-radius: 8px;
+}
+.metrics-grid article { min-height: 78px; padding: 12px 8px; display: grid; align-content: center; gap: 5px; }
+.metrics-grid span { font-size: clamp(1rem, 4.5vw, 1.4rem); line-height: 1.05; font-weight: 900; overflow-wrap: anywhere; }
+.metrics-grid p { margin: 0; color: var(--muted); font-size: 0.73rem; font-weight: 760; }
+
+.alert-panel, .expense-panel { padding: 14px; margin: 0 0 14px; display: grid; gap: 8px; }
+.alert-panel { border-color: rgba(242, 165, 65, 0.45); background: #fff8ec; }
+.alert-panel strong, .expense-panel strong { font-size: 0.96rem; }
+.alert-panel p, .expense-panel p { margin: 0; color: var(--muted); font-size: 0.88rem; }
+.expense-panel p { display: flex; justify-content: space-between; gap: 10px; }
+.expense-panel span { color: var(--ink); font-weight: 850; }
+
+.section-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 14px 0 12px; }
+.section-heading h2 { font-size: 1.2rem; }
+
+.vehicle-card { width: 100%; text-align: left; color: var(--ink); padding: 16px; display: grid; gap: 12px; }
+.vehicle-card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.vehicle-name { display: grid; gap: 4px; min-width: 0; }
+.vehicle-name strong { font-size: 1.08rem; overflow-wrap: anywhere; }
+.vehicle-name span, .vehicle-meta, .empty-state p, .service-card p, .invoice-card p, .vehicle-hero p { color: var(--muted); font-size: 0.88rem; }
+.plate-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  min-width: 112px;
+  max-width: 148px;
+  padding: 0 10px;
+  border-radius: 6px;
+  background: #fdfdfd;
+  color: #111;
+  border: 2px solid #222;
+  box-shadow: inset 10px 0 0 #1b57a6;
+  font-family: "Arial Narrow", Arial, sans-serif;
+  font-weight: 900;
+  letter-spacing: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.vehicle-meta { display: flex; flex-wrap: wrap; gap: 8px; }
+.vehicle-meta span { min-height: 30px; display: inline-flex; align-items: center; gap: 6px; padding: 0 10px; border-radius: 999px; background: var(--surface-2); font-weight: 760; }
+.vehicle-meta svg { width: 16px; height: 16px; stroke: var(--teal); stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+.empty-state { min-height: 170px; padding: 28px 20px; display: grid; place-items: center; text-align: center; background: var(--surface); border: 1px dashed #b8c7ce; border-radius: 8px; }
+.empty-state strong { display: block; margin-bottom: 6px; font-size: 1.08rem; }
+.empty-state p { margin: 0; }
+.vehicle-hero { background: var(--ink); color: #fff; border-radius: 8px; padding: 18px; display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+.vehicle-hero p { color: #b9c5cc; margin: 0 0 8px; overflow-wrap: anywhere; }
+.vehicle-hero strong { font-size: 1.55rem; line-height: 1; }
+
+.vehicle-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 12px 0; }
+.vehicle-view { min-height: 96px; padding: 10px; display: grid; align-content: center; gap: 6px; text-align: center; color: var(--muted); font-size: 0.76rem; font-weight: 800; }
+.vehicle-view svg { width: 100%; height: 54px; }
+.detail-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 5px; margin: 12px 0 6px; background: var(--surface-2); border-radius: 16px; }
+
+.service-card.rich, .invoice-card { padding: 14px; display: grid; grid-template-columns: 50px 1fr; gap: 12px; align-items: flex-start; }
+.service-card header, .invoice-card header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.service-card strong, .invoice-card strong { font-size: 1.02rem; }
+.service-card time, .invoice-card time { color: var(--teal-dark); font-size: 0.8rem; font-weight: 850; white-space: nowrap; }
+.service-card p, .invoice-card p { margin: 5px 0 0; line-height: 1.35; }
+.maintenance-icon { width: 50px; height: 50px; border-radius: 16px; display: grid; place-items: center; background: #dff0f2; color: var(--teal-dark); }
+.maintenance-icon svg, .maintenance-option svg { width: 30px; height: 30px; stroke: currentColor; stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+.maintenance-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.maintenance-option { min-height: 132px; padding: 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-2); color: var(--ink); text-align: left; display: grid; gap: 7px; align-content: start; }
+.maintenance-option span { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 14px; background: var(--surface); color: var(--teal); }
+.maintenance-option strong { font-size: 0.92rem; line-height: 1.15; }
+.maintenance-option small { color: var(--muted); font-size: 0.74rem; line-height: 1.25; }
+.maintenance-option.selected { border-color: var(--teal); box-shadow: 0 0 0 4px rgba(8, 127, 140, 0.13); background: #f5fcfd; }
+
+.inline-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.inline-actions a { min-height: 34px; display: inline-flex; align-items: center; gap: 7px; padding: 0 10px; border-radius: 12px; background: var(--surface-2); color: var(--ink); font-weight: 850; font-size: 0.82rem; }
+.inline-actions svg { width: 16px; height: 16px; }
+.info-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 12px; }
+.info-grid article { min-height: 78px; padding: 12px; display: grid; align-content: center; gap: 5px; }
+.info-grid span { color: var(--muted); font-size: 0.78rem; font-weight: 800; }
+.info-grid strong { overflow-wrap: anywhere; }
+
+.sheet-backdrop { position: fixed; inset: 0; z-index: 20; display: grid; align-items: end; justify-items: center; background: rgba(16, 24, 32, 0.44); padding: 18px; }
+.sheet { width: min(100%, 430px); max-height: min(88vh, 760px); overflow: auto; background: var(--surface); border-radius: 24px 24px 14px 14px; padding: 20px; box-shadow: var(--shadow); display: grid; gap: 16px; }
+.sheet-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.sheet-close { width: 42px; height: 42px; border-radius: 14px; font-size: 1.65rem; line-height: 1; box-shadow: none; background: var(--surface-2); }
+.toast { position: fixed; left: 50%; bottom: max(16px, env(safe-area-inset-bottom)); z-index: 30; width: min(90%, 360px); transform: translate(-50%, 140%); opacity: 0; border-radius: 16px; padding: 13px 16px; background: var(--ink); color: #fff; text-align: center; font-weight: 780; box-shadow: var(--shadow); transition: transform 180ms ease, opacity 180ms ease; }
+.toast.show { transform: translate(-50%, 0); opacity: 1; }
+
+@media (min-width: 680px) {
+  body { display: grid; place-items: center; min-height: 100vh; padding: 26px; }
+  .app-shell { min-height: min(860px, calc(100vh - 52px)); border-radius: 34px; }
+  .screen { min-height: min(860px, calc(100vh - 52px)); }
+  .auth-visual, .auth-image { min-height: 390px; }
+}
+
+@media (max-width: 390px) {
+  .metrics-grid.wide { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .field-row, .vehicle-gallery, .info-grid { grid-template-columns: 1fr; }
+  .maintenance-grid { grid-template-columns: 1fr; }
+  .topbar { grid-template-columns: 44px 1fr 44px; gap: 8px; }
+  .icon-button { width: 44px; height: 44px; }
+  .vehicle-hero { align-items: flex-start; flex-direction: column; }
+}
+
+/* Premium automotive theme */
+:root {
+  color-scheme: dark;
+  --ink: #f4f8fb;
+  --muted: #9facb8;
+  --line: rgba(255, 255, 255, 0.13);
+  --paper: #081018;
+  --surface: rgba(17, 28, 39, 0.78);
+  --surface-2: rgba(255, 255, 255, 0.07);
+  --teal: #2fd1e2;
+  --teal-dark: #8be9f2;
+  --amber: #e9b86b;
+  --danger: #ff6b6b;
+  --shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
+}
+
+body {
+  background:
+    radial-gradient(circle at 20% 5%, rgba(47, 209, 226, 0.22), transparent 30%),
+    radial-gradient(circle at 88% 8%, rgba(79, 112, 255, 0.18), transparent 28%),
+    linear-gradient(135deg, #04070b, #101924 50%, #090d13);
+}
+
+.app-shell {
+  background:
+    linear-gradient(160deg, rgba(12, 20, 30, 0.96), rgba(8, 13, 20, 0.98)),
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.025) 0 1px, transparent 1px 8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.auth-screen,
+.auth-panel,
+.sheet {
+  background: rgba(10, 18, 27, 0.92);
+  backdrop-filter: blur(22px);
+}
+
+.auth-panel {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 0;
+}
+
+.segmented,
+.detail-tabs {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.segmented button.active,
+.detail-tabs button.active,
+.icon-button {
+  background: linear-gradient(145deg, rgba(255,255,255,0.16), rgba(255,255,255,0.06));
+  color: #fff;
+}
+
+.field input,
+.field textarea,
+.field select,
+.input-wrap,
+.metrics-grid article,
+.vehicle-card,
+.service-card,
+.invoice-card,
+.info-grid article,
+.vehicle-view,
+.alert-panel,
+.expense-panel {
+  background: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.045));
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  color: #fff;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 16px 35px rgba(0,0,0,0.22);
+  backdrop-filter: blur(18px);
+}
+
+.primary-action,
+.icon-button.accent {
+  background: linear-gradient(135deg, #18a7b7, #2fd1e2 48%, #8be9f2);
+  color: #051018;
+  box-shadow: 0 15px 34px rgba(47, 209, 226, 0.28);
+}
+
+.secondary-action,
+.text-action {
+  background: linear-gradient(135deg, rgba(255,255,255,0.14), rgba(47,209,226,0.16));
+  color: #eefcff;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.dashboard-hero {
+  min-height: 310px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  background: linear-gradient(140deg, #121b26, #071018);
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: var(--shadow);
+  margin-bottom: 14px;
+}
+
+.dashboard-hero img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.82;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(4,7,11,0.12), rgba(4,7,11,0.86));
+}
+
+.hero-copy {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 96px;
+  z-index: 1;
+}
+
+.hero-copy span {
+  color: var(--teal);
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.hero-copy h2 {
+  margin: 5px 0;
+  font-size: 1.75rem;
+  line-height: 1.05;
+}
+
+.hero-copy p {
+  margin: 0;
+  color: #d2dde5;
+  font-weight: 700;
+}
+
+.hero-stats {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+}
+
+.hero-stats article,
+.action-card {
+  background: rgba(9, 18, 27, 0.72);
+  border: 1px solid rgba(255,255,255,0.13);
+  backdrop-filter: blur(16px);
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.hero-stats strong,
+.hero-stats span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hero-stats strong {
+  color: #fff;
+  font-size: 0.95rem;
+}
+
+.hero-stats span {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 12px 0 16px;
+}
+
+.action-card {
+  min-height: 94px;
+  color: #fff;
+  text-align: left;
+  display: grid;
+  align-content: center;
+  gap: 8px;
+  transform: translateY(0);
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.action-card:hover,
+.maintenance-option:hover,
+.vehicle-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(47, 209, 226, 0.45);
+}
+
+.action-card span {
+  font-size: 1.45rem;
+}
+
+.action-card strong {
+  font-size: 0.95rem;
+  line-height: 1.15;
+}
+
+.vehicle-gallery {
+  grid-template-columns: 1fr;
+}
+
+.vehicle-view {
+  min-height: 185px;
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  text-align: left;
+}
+
+.vehicle-view img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+  display: block;
+  filter: saturate(1.05) contrast(1.04);
+}
+
+.vehicle-view span {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  min-height: 30px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 10px;
+  border-radius: 999px;
+  color: #fff;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(12px);
+}
+
+.maintenance-option {
+  min-height: 152px;
+  background:
+    radial-gradient(circle at 82% 12%, rgba(47, 209, 226, 0.2), transparent 34%),
+    linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.045));
+  border-color: rgba(255,255,255,0.11);
+  color: #fff;
+  transition: transform 180ms ease, border-color 180ms ease;
+}
+
+.maintenance-option span,
+.maintenance-icon {
+  background: linear-gradient(145deg, rgba(47,209,226,0.22), rgba(255,255,255,0.08));
+  color: #bdf7ff;
+}
+
+.maintenance-option small,
+.helper-text,
+.field,
+.vehicle-name span,
+.vehicle-meta,
+.empty-state p,
+.service-card p,
+.invoice-card p,
+.vehicle-hero p,
+.metrics-grid p {
+  color: var(--muted);
+}
+
+.upload-card {
+  min-height: 112px;
+  display: grid;
+  gap: 6px;
+  align-content: center;
+  padding: 14px;
+  border-radius: 14px;
+  background: linear-gradient(145deg, rgba(255,255,255,0.11), rgba(47,209,226,0.1));
+  border: 1px dashed rgba(139, 233, 242, 0.42);
+  color: #fff;
+  cursor: pointer;
+}
+
+.upload-card input {
+  display: none;
+}
+
+.upload-card span {
+  font-size: 1.55rem;
+}
+
+.upload-card strong {
+  font-size: 1rem;
+}
+
+.upload-card small {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.plate-badge {
+  box-shadow: inset 10px 0 0 #194f9a, 0 10px 24px rgba(0,0,0,0.25);
+}
+
+.toast {
+  background: rgba(8, 16, 24, 0.92);
+  border: 1px solid rgba(255,255,255,0.14);
+}
+
+@media (min-width: 680px) {
+  .app-shell {
+    width: min(100%, 1120px);
+  }
+
+  .app-screen,
+  .detail-screen {
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+
+  .vehicle-gallery {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
